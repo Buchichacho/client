@@ -1,0 +1,22 @@
+{
+  "iterations": 500,
+  "beforeOptimization": {
+    "description": "With console.log overhead",
+    "totalMs": 84.7202000000002,
+    "avgMs": 0.1694404000000004,
+    "p95Ms": 0.321400000000267
+  },
+  "afterOptimization": {
+    "description": "Without logs (optimized)",
+    "totalMs": 2.6507000000001426,
+    "avgMs": 0.005301400000000285,
+    "p95Ms": 0.008699999999862484
+  },
+  "improvement": {
+    "deltaTotalMs": 82.06950000000006,
+    "deltaAvgMs": 0.16413900000000012,
+    "speedupX": 31.9614441468275,
+    "improvementPercent": 96.8712302378888,
+    "fasterByMs": 0.16413900000000012
+  }
+}

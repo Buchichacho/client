@@ -83,40 +83,28 @@ class ProductService {
       headers: this.getAuthHeaders(),
       body: JSON.stringify(product),
     });
-    
-    logger.info('ProductService: Create response', response);
-    console.log('ProductService: Full create response:', JSON.stringify(response, null, 2));
-    
+
+    // PERF OPTIMIZATION: Consolidated response shape normalization.
+    // Previous implementation performed many console.log calls and repeated branching.
+    // We now map known container keys to a candidate object and fall back to the first
+    // nested object containing an 'id'. This reduces logging overhead and branching cost.
+    logger.info('ProductService: Create response (normalized path)');
+
     if (response && typeof response === 'object') {
-      if (response.id) {
-        console.log('ProductService: Found ID in response.id:', response.id);
-        return response as Product;
-      } else if (response.data && response.data.id) {
-        console.log('ProductService: Found ID in response.data.id:', response.data.id);
-        return response.data as Product;
-      } else if (response.product && response.product.id) {
-        console.log('ProductService: Found ID in response.product.id:', response.product.id);
-        return response.product as Product;
-      } else if (response.result && response.result.id) {
-        console.log('ProductService: Found ID in response.result.id:', response.result.id);
-        return response.result as Product;
-      } else if (response.item && response.item.id) {
-        console.log('ProductService: Found ID in response.item.id:', response.item.id);
-        return response.item as Product;
-      } else {
-        console.log('ProductService: No ID found in response structure:', Object.keys(response));
-        console.log('ProductService: Response values:', Object.values(response));
-        
-        for (const [key, value] of Object.entries(response)) {
-          if (value && typeof value === 'object' && 'id' in value) {
-            console.log(`ProductService: Found nested ID in response.${key}.id:`, (value as any).id);
-            return value as Product;
-          }
+      const direct = (response as any).id ? response : null;
+      const containerKeys = ['data', 'product', 'result', 'item'];
+      const viaContainer = direct ? direct : containerKeys
+        .map(k => (response as any)[k])
+        .find(v => v && typeof v === 'object' && 'id' in v);
+      if (viaContainer) return viaContainer as Product;
+
+      // Fallback: scan shallow enumerable properties once.
+      for (const value of Object.values(response)) {
+        if (value && typeof value === 'object' && 'id' in (value as any)) {
+          return value as Product;
         }
       }
     }
-    
-    console.log('ProductService: Returning response as-is:', response);
     return response as Product;
   }
 

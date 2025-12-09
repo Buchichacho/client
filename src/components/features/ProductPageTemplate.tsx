@@ -6,9 +6,10 @@ import SiteFooter from '@/components/layout/SiteFooter'
 import ApiProductCard from '@/components/features/ApiProductCard'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, Truck, Package, CreditCard, ShieldCheck, Store, ChevronRight, ChevronLeft } from 'lucide-react'
+import { Star, Truck, Package, CreditCard, ShieldCheck, Store, ChevronRight, ChevronLeft, GitCompareArrows } from 'lucide-react'
 import { useCartDrawer } from '@/components/cart/CartDrawerProvider'
 import { useRouter } from 'next/navigation'
+import { useCompare } from '@/components/compare/CompareDrawerProvider'
 
 
 type MediaItem = { url?: string; secondaryUrl?: string; order?: number; type?: 'image' | 'video' }
@@ -70,6 +71,7 @@ export default function ProductPageTemplate({ productId }: Props) {
   const [loadingViewed, setLoadingViewed] = useState(false)
   const [loadingSimilarOther, setLoadingSimilarOther] = useState(false)
   const [productImages, setProductImages] = useState<Record<string, string>>({})
+  const { has: inCompare, toggle: toggleCompare, openCompare } = useCompare()
 
   useEffect(() => {
     let cancelled = false
@@ -909,6 +911,15 @@ export default function ProductPageTemplate({ productId }: Props) {
                   className="rounded-full border hover:cursor-pointer border-[#4563d1] px-1 py-2 text-sm border-2 text-[#4563d1] hover:bg-[#4563d1]/5"
                 >
                   Купити зараз
+                </button>
+              </div>
+              <div className="mt-3">
+                <button
+                  onClick={() => { const was = inCompare(productId); toggleCompare(productId); if (!was) openCompare() }}
+                  className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm ${inCompare(productId) ? 'border-[#4563d1] text-[#4563d1] bg-white' : 'border-gray-300 text-gray-700 hover:border-[#4563d1] hover:text-[#4563d1]'}`}
+                >
+                  <GitCompareArrows className="h-4 w-4" />
+                  {inCompare(productId) ? 'У порівнянні' : 'Додати до порівняння'}
                 </button>
               </div>
             </div>

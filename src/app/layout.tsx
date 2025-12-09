@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CartDrawerProvider from "@/components/cart/CartDrawerProvider";
+import CompareDrawerProvider from "@/components/compare/CompareDrawerProvider";
 import FavoritesProvider from "@/components/favorites/FavoritesProvider";
 import NotificationsDrawerProvider from "@/components/notifications/NotificationsDrawerProvider";
 
@@ -22,11 +23,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="min-h-screen bg-gray-50">
           <CartDrawerProvider>
-            <NotificationsDrawerProvider>
-              <FavoritesProvider>
-                {children}
-              </FavoritesProvider>
-            </NotificationsDrawerProvider>
+            <CompareDrawerProvider>
+              <NotificationsDrawerProvider>
+                <FavoritesProvider>
+                  {children}
+                </FavoritesProvider>
+              </NotificationsDrawerProvider>
+            </CompareDrawerProvider>
           </CartDrawerProvider>
         </div>
       </body>

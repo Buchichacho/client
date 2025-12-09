@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Search, User, Bell, Heart, ShieldUser, ShoppingCart, Ambulance } from 'lucide-react'
+import { Search, User, Bell, Heart, ShieldUser, ShoppingCart, Ambulance, GitCompareArrows } from 'lucide-react'
 import Link from 'next/link'
 import AnimatedLogo from '@/components/shared/AnimatedLogo'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useCartDrawer } from '@/components/cart/CartDrawerProvider'
 import { useNotifications } from '@/components/notifications/NotificationsDrawerProvider'
+import { useCompare } from '@/components/compare/CompareDrawerProvider'
 
 type CategorySearchResult = {
   id: string;
@@ -93,6 +94,7 @@ export default function Header() {
   const { isAuthenticated, logout } = useAuth()
   const { openCart, cartCount } = useCartDrawer()
   const { open: openNotifications, unreadCount } = useNotifications()
+  const { isOpen: compareOpen, openCompare, count: compareCount } = useCompare()
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
@@ -410,6 +412,16 @@ export default function Header() {
               <span className="hidden text-[12px] xl:block">Відстеження</span>
             </Link>
           )}
+          {/* Compare Drawer Button */}
+          <button onClick={() => { openCompare() }} className="relative hover:cursor-pointer flex flex-col items-center text-gray-700 hover:text-[#4563d1]">
+            <GitCompareArrows className="h-6 w-6" />
+            {compareCount > 0 && (
+              <span className="absolute -right-2 -top-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-blue-600 px-1 text-[11px] font-semibold text-white">
+                {compareCount}
+              </span>
+            )}
+            <span className="hidden text-[12px] xl:block">Порівняння</span>
+          </button>
           <button onClick={() => {
             openCart()
           }} className="relative hover:cursor-pointer flex flex-col items-center text-gray-700 hover:text-[#4563d1]">

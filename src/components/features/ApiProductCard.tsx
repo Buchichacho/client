@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Heart, ShoppingCart, Star } from 'lucide-react'
+import { Heart, ShoppingCart, Star, GitCompareArrows } from 'lucide-react'
 import { useCartDrawer } from '@/components/cart/CartDrawerProvider'
 import { useAuth } from '@/hooks/useAuth'
 import { useFavorites } from '@/components/favorites/FavoritesProvider'
+import { useCompare } from '@/components/compare/CompareDrawerProvider'
 
 interface ApiProductCardProps {
   id: string;
@@ -39,6 +40,7 @@ export default function ApiProductCard({
   const { addToCart, isInCart, openCart } = useCartDrawer()
   const { isAuthenticated } = useAuth()
   const { lists, isInFavorites, toggleFavorite, openPicker, picker, productToListId, ui } = useFavorites()
+  const { has, toggle: toggleCompare, openCompare } = useCompare()
 
   const title = name || 'Без назви'
   const normalizedStatus = typeof quantityStatus === 'string' ? quantityStatus.toLowerCase() : ''
@@ -187,6 +189,19 @@ export default function ApiProductCard({
         }}
       >
         <Heart className={`h-5 w-5 ${inFav ? 'fill-current' : ''}`} />
+      </button>
+      {/* Compare toggle button */}
+      <button
+        className={`absolute right-14 hover:cursor-pointer top-4 z-10 rounded-full p-1.5 ${has(id) ? 'bg-[#4563d1]/10 text-[#4563d1]' : 'bg-white text-gray-400'} transition-colors hover:text-[#4563d1]`}
+        aria-label={has(id) ? 'Видалити з порівняння' : 'Додати до порівняння'}
+        onClick={(e) => {
+          e.preventDefault()
+          const wasIn = has(id)
+          toggleCompare(id)
+          if (!wasIn) openCompare()
+        }}
+      >
+        <GitCompareArrows className="h-5 w-5" />
       </button>
       
       <Link href={`/product/${id}`}>
