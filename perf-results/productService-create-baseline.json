@@ -1,7 +1,7 @@
 {
   "iterations": 500,
-  "totalMs": 4.73680000000013,
-  "avgMs": 0.00947360000000026,
-  "p95Ms": 0.01470000000017535,
+  "totalMs": 3.14,
+  "avgMs": 0.0063,
+  "p95Ms": 0.0118,
   "description": "Current optimized version (logs disabled in tests)"
 }

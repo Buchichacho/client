@@ -83,9 +83,9 @@ describe('Perf: productService.create normalization', () => {
       fs.mkdirSync(outDir, { recursive: true })
       fs.writeFileSync(outPath, JSON.stringify({ 
         iterations: ITERATIONS, 
-        totalMs: total, 
-        avgMs: avg, 
-        p95Ms: p95,
+        totalMs: Number(total.toFixed(2)), 
+        avgMs: Number(avg.toFixed(4)), 
+        p95Ms: Number(p95.toFixed(4)),
         description: 'Current optimized version (logs disabled in tests)'
       }, null, 2))
     } catch {}
@@ -153,22 +153,22 @@ describe('Perf: productService.create normalization', () => {
           iterations: ITERATIONS,
           beforeOptimization: {
             description: 'With console.log overhead',
-            totalMs: measureOld.total,
-            avgMs: measureOld.avg,
-            p95Ms: measureOld.p95,
+            totalMs: Number(measureOld.total.toFixed(2)),
+            avgMs: Number(measureOld.avg.toFixed(4)),
+            p95Ms: Number(measureOld.p95.toFixed(4)),
           },
           afterOptimization: {
             description: 'Without logs (optimized)',
-            totalMs: measureNew.total,
-            avgMs: measureNew.avg,
-            p95Ms: measureNew.p95,
+            totalMs: Number(measureNew.total.toFixed(2)),
+            avgMs: Number(measureNew.avg.toFixed(4)),
+            p95Ms: Number(measureNew.p95.toFixed(4)),
           },
           improvement: {
-            deltaTotalMs: measureOld.total - measureNew.total,
-            deltaAvgMs: measureOld.avg - measureNew.avg,
-            speedupX: measureOld.avg / measureNew.avg,
-            improvementPercent: ((measureOld.avg - measureNew.avg) / measureOld.avg * 100),
-            fasterByMs: measureOld.avg - measureNew.avg,
+            deltaTotalMs: Number((measureOld.total - measureNew.total).toFixed(2)),
+            deltaAvgMs: Number((measureOld.avg - measureNew.avg).toFixed(4)),
+            speedupX: Number((measureOld.avg / measureNew.avg).toFixed(2)),
+            improvementPercent: Number(((measureOld.avg - measureNew.avg) / measureOld.avg * 100).toFixed(2)),
+            fasterByMs: Number((measureOld.avg - measureNew.avg).toFixed(4)),
           }
         }, null, 2)
       )

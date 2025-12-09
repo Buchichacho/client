@@ -2,21 +2,21 @@
   "iterations": 500,
   "beforeOptimization": {
     "description": "With console.log overhead",
-    "totalMs": 84.7202000000002,
-    "avgMs": 0.1694404000000004,
-    "p95Ms": 0.321400000000267
+    "totalMs": 52.85,
+    "avgMs": 0.1057,
+    "p95Ms": 0.1765
   },
   "afterOptimization": {
     "description": "Without logs (optimized)",
-    "totalMs": 2.6507000000001426,
-    "avgMs": 0.005301400000000285,
-    "p95Ms": 0.008699999999862484
+    "totalMs": 3.07,
+    "avgMs": 0.0061,
+    "p95Ms": 0.0141
   },
   "improvement": {
-    "deltaTotalMs": 82.06950000000006,
-    "deltaAvgMs": 0.16413900000000012,
-    "speedupX": 31.9614441468275,
-    "improvementPercent": 96.8712302378888,
-    "fasterByMs": 0.16413900000000012
+    "deltaTotalMs": 49.78,
+    "deltaAvgMs": 0.0996,
+    "speedupX": 17.21,
+    "improvementPercent": 94.19,
+    "fasterByMs": 0.0996
   }
 }
